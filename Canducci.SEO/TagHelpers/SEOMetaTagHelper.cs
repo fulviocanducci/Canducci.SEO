@@ -14,7 +14,7 @@ namespace Canducci.SEO.TagHelpers
         }
 
         [HtmlAttributeName(DataAttributeName)]
-        public SEOMeta Data { get; set; }
+        public SEOMeta Items { get; set; }
 
         protected void Render(TagHelperContext context, TagHelperOutput output)
         {
@@ -28,22 +28,24 @@ namespace Canducci.SEO.TagHelpers
                 throw new ArgumentNullException(nameof(output));
             }
 
-            if (Data != null)
+            output.TagName = "";
+
+            if (Items != null)
             {
-                foreach (var meta in Data)
+                foreach (var item in Items)
                 {
-                    if (meta is MetaName metaName)
+                    if (item is MetaName metaName)
                     {
                         output.Content.AppendHtmlLine(metaName);
                     }
-                    if (meta is MetaProperty metaProperty)
+                    if (item is MetaProperty metaProperty)
                     {
                         output.Content.AppendHtmlLine(metaProperty);
-                    }                    
+                    }
                 }
-                output.TagName = "";
             }
         }
+
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
